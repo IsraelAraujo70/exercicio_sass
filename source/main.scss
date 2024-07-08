@@ -1,0 +1,129 @@
+@use 'config/reset';
+@use 'config/variaveis';
+@use 'sass:math';
+
+@function pixelParaEm($alvoEmPixel, $ctxtEmPixel: 16px) {
+    @return math.div($alvoEmPixel, $ctxtEmPixel) * 1em;
+}
+
+@mixin flex($justify: null, $align: null) {
+    display: flex;
+    @if $justify {
+        justify-content: $justify;
+    }
+    @if $align {
+        align-items: $align;
+    }
+}
+
+@mixin container($max-width: 1024px) {
+    max-width: $max-width;
+    width: 100%;
+    margin: 0 auto;
+}
+
+@mixin button($bg-color, $text-color: #fff) {
+    display: block;
+    background-color: $bg-color;
+    color: $text-color;
+    text-align: center;
+    padding: pixelParaEm(8px) 0;
+    border-radius: pixelParaEm(8px);
+    text-decoration: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f6fa;
+}
+
+li {
+    list-style: none;
+}
+
+.container {
+    @include container(1024px);
+}
+
+header {
+    background-color: #182C61;
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    .container {
+        @include flex(space-between, center);
+        padding: pixelParaEm(16px) 0;
+    }
+}
+
+.menu {
+    @include flex;
+
+    li {
+        font-weight: bold;
+        margin-left: pixelParaEm(24px);
+    }
+
+    li a {
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+section {
+    padding: pixelParaEm(56px) 0;
+}
+
+.products {
+    margin-top: pixelParaEm(40px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1%;
+    width: 100%;
+}
+
+.product-item{
+    background-color: #d4d4d46c;
+    padding: pixelParaEm(16px);
+    border-radius: 8px;
+}
+
+.product-item img {
+    width: 100%;
+    border-radius: pixelParaEm(16px);
+}
+
+.product-button {
+    @include button(#44bd32);
+    margin-top: pixelParaEm(8px);
+
+    &:hover {
+        background-color: lighten(variaveis.$corSecundaria, 5%);
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .container {
+        @include container(80%);
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .products {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: pixelParaEm(32px);
+    }
+}
